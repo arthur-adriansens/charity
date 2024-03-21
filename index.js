@@ -2,6 +2,7 @@
 
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 class Server {
     constructor(port = 3000) {
@@ -21,7 +22,7 @@ class Server {
     }
 
     get_requests() {
-        this.app.use(express.static("public"));
+        this.app.use(express.static(path.join(__dirname, "public")));
 
         this.app.get("/", (req, res) => {
             res.send("Hello World!");
