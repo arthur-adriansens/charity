@@ -2,13 +2,14 @@
 
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 class Server {
     constructor(port = 3000) {
         this.app = express();
         this.port = port;
 
-        this.app.use(express.static("public"));
+        this.app.use(express.static(path.join(__dirname, "public")));
         this.get_requests();
         this.start_server();
     }
