@@ -6,7 +6,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>3D chess</title>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="/style.css" />
     </head>
 
     <body>
@@ -61,7 +61,7 @@
             const loader = new GLTFLoader();
 
             loader.load(
-                "https://www.dropbox.com/scl/fi/cxtwlvu8bwc1nx6gn7v6r/scene.gltf?rlkey=ltqc74ie8sycwdv9mg2xz6ui5&dl=1",
+                "/chess3D/scene.gltf",
                 function (gltf) {
                     scene.add(gltf.scene);
                 },
