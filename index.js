@@ -1,9 +1,7 @@
 /** @format */
 
 import express from "express";
-import cors from "cors";
 import path from "path";
-
 
 class Server {
     constructor(port = 3000) {
@@ -15,8 +13,6 @@ class Server {
     }
 
     start_server() {
-        this.app.use(cors());
-
         this.app.listen(this.port, () => {
             console.log(`Listening on port ${this.port}`);
         });
@@ -27,6 +23,10 @@ class Server {
 
         this.app.get("/", (req, res) => {
             res.send("Hello World!");
+        });
+
+        this.app.get("/chess", (req, res) => {
+            res.sendFile("/chess.html");
         });
     }
 }

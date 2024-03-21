@@ -1,0 +1,45 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#game {
+    width: 100%;
+    height: 100%;
+}
+
+#stats {
+    position: absolute;
+    margin: 15px;
+}
+
+#stats>div {
+    position: relative !important;
+    opacity: 1 !important;
+    user-select: none;
+}
+
+#stats>p {
+    user-select: none;
+    color: white;
+}
+
+p>input {
+    opacity: .1;
+    transition: .5s opacity;
+}
+
+p:hover>input {
+    opacity: 1;
+}
+
+button {
+    opacity: .8;
+    transition: .5s opacity;
+}
+
+button:hover {
+    opacity: 1;
+}

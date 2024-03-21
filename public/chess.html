@@ -1,0 +1,151 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>3D chess</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <div id="game">
+            <div id="stats">
+                <p>sensitivity: <input type="range" id="sensitivity" min="1" max="20" /></p>
+                <!-- <p>size: <input type="range" id="size" min="10" max="50" /></p> -->
+                <button id="save">save settings</button>
+                <button id="reset">reset settings</button>
+            </div>
+        </div>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "https://unpkg.com/three/build/three.module.js",
+                    "orbit": "https://unpkg.com/three@0.162.0/examples/jsm/controls/OrbitControls.js",
+                    "stat": "https://unpkg.com/three@0.162.0/examples/jsm/libs/stats.module.js",
+                    "loader": "https://unpkg.com/three@0.162.0/examples/jsm/loaders/GLTFLoader.js"
+                }
+            }
+        </script>
+
+        <script type="module">
+            import * as THREE from "three";
+            import { OrbitControls } from "orbit";
+            import { GLTFLoader } from "loader";
+            import Stats from "stat";
+
+            // setup
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            const game_div = document.querySelector("#game");
+            const stats_div = document.querySelector("#stats");
+
+            // camera
+            let camera = new THREE.PerspectiveCamera(70, width / height, 0.01, 10);
+            camera.position.z = 1;
+
+            const scene = new THREE.Scene();
+
+            // objects
+            const size = 0.4;
+            const geometry = new THREE.BoxGeometry(size, size, size);
+            const material = new THREE.MeshNormalMaterial();
+
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.rotation.x = 20;
+            mesh.rotation.y = 20;
+            scene.add(mesh);
+
+            const loader = new GLTFLoader();
+
+            loader.load(
+                "https://www.dropbox.com/scl/fi/cxtwlvu8bwc1nx6gn7v6r/scene.gltf?rlkey=ltqc74ie8sycwdv9mg2xz6ui5&dl=1",
+                function (gltf) {
+                    scene.add(gltf.scene);
+                },
+                undefined,
+                function (error) {
+                    console.error(error);
+                }
+            );
+
+            // light
+            // const light = new THREE.PointLight(0xff0000, 2, 100);
+            // light.position.set(0, 0, 0);
+            // light.castShadow = true;
+            // scene.add(light);
+            // console.log(light);
+
+            // renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.setAnimationLoop(animation);
+            game_div.appendChild(renderer.domElement);
+            renderer.domElement.id = "renderer";
+            renderer.render(scene, camera);
+
+            // orbit
+            const controls = new OrbitControls(camera, renderer.domElement);
+            controls.rotateSpeed = localStorage.sensitivity ?? 0.5;
+            controls.maxDistance = 5;
+            controls.minDistance = 0.4;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 3.0;
+            controls.minPolarAngle = Math.PI / 2;
+
+            // fps
+            const stats = new Stats();
+            stats_div.insertBefore(stats.dom, stats_div.children[0]);
+
+            // animations
+            function animation(time) {
+                // mesh.rotation.x = time / 2000;
+                // mesh.rotation.x = 10;
+                // mesh.rotation.y = time / 1000;
+
+                renderer.render(scene, camera);
+                stats.update();
+                controls.update();
+            }
+
+            // resize window
+            window.onresize = resize;
+
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(width, height);
+                renderer.render(scene, camera);
+            }
+
+            // sliders
+            const sensitivity_div = document.querySelector("#sensitivity");
+            sensitivity_div.oninput = change_settings;
+
+            function change_settings(e) {
+                controls.rotateSpeed = sensitivity_div.value / 10;
+            }
+
+            // save & reset button
+            const save_btn = document.querySelector("#save");
+            const reset_btn = document.querySelector("#reset");
+            save_btn.onclick = save_settings;
+            reset_btn.onclick = reset_settings;
+
+            function save_settings() {
+                localStorage.sensitivity = sensitivity_div.value / 10;
+                console.log("saved!", localStorage);
+            }
+
+            function reset_settings() {
+                localStorage.clear();
+            }
+        </script>
+    </body>
+</html>
