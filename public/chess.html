@@ -71,10 +71,18 @@
                 }
             );
 
+            // grid
+            const gridHelper = new THREE.GridHelper(10, 10);
+            scene.add(gridHelper);
+
             // light
-            const light = new THREE.PointLight(0xff0000, 2, 100);
-            light.position.set(2, 4, 2);
-            // light.castShadow = true;
+            // const light = new THREE.PointLight(0xff0000, 2, 100);
+            // light.position.set(2, 4, 2);
+            // // light.castShadow = true;
+            // scene.add(light);
+            // console.log(light);
+
+            const light = new THREE.AmbientLight(0x404040);
             scene.add(light);
             console.log(light);
 
