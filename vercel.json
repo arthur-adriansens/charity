@@ -9,12 +9,27 @@
     ],
     "routes": [
         {
-            "src": "/public/(.*)",
-            "dest": "/public/$1"
-        },
-        {
             "src": "/(.*)",
-            "dest": "/"
+            "dest": "/index.js"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "*"
+                },
+                {
+                    "key": "Access-Control-Allow-Methods",
+                    "value": "GET, POST, PUT, DELETE, OPTIONS"
+                },
+                {
+                    "key": "Access-Control-Allow-Headers",
+                    "value": "*"
+                }
+            ]
         }
     ]
 }
