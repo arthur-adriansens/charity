@@ -63,6 +63,7 @@
             loader.load(
                 "/chess3D/scene.gltf",
                 function (gltf) {
+                    console.log(gltf);
                     scene.add(gltf.scene);
                 },
                 undefined,
@@ -73,7 +74,7 @@
 
             // light
             const light = new THREE.PointLight(0xff0000, 2, 100);
-            light.position.set(2, 2, 2);
+            light.position.set(2, 4, 2);
             light.castShadow = true;
             scene.add(light);
             console.log(light);
