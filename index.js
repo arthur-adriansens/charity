@@ -14,7 +14,6 @@ class Server {
 
     start_server() {
         this.app.use(cors());
-        this.app.use(express.static("public"));
 
         this.app.listen(this.port, () => {
             console.log(`Listening on port ${this.port}`);
@@ -22,6 +21,8 @@ class Server {
     }
 
     get_requests() {
+        this.app.use(express.static("public"));
+
         this.app.get("/", (req, res) => {
             res.send("Hello World!");
         });
