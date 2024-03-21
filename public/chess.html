@@ -53,10 +53,10 @@
             const geometry = new THREE.BoxGeometry(size, size, size);
             const material = new THREE.MeshNormalMaterial();
 
-            const mesh = new THREE.Mesh(geometry, material);
-            mesh.rotation.x = 20;
-            mesh.rotation.y = 20;
-            scene.add(mesh);
+            // const mesh = new THREE.Mesh(geometry, material);
+            // mesh.rotation.x = 20;
+            // mesh.rotation.y = 20;
+            // scene.add(mesh);
 
             const loader = new GLTFLoader();
 
@@ -72,11 +72,11 @@
             );
 
             // light
-            // const light = new THREE.PointLight(0xff0000, 2, 100);
-            // light.position.set(0, 0, 0);
-            // light.castShadow = true;
-            // scene.add(light);
-            // console.log(light);
+            const light = new THREE.PointLight(0xff0000, 2, 100);
+            light.position.set(0, 0, 0);
+            light.castShadow = true;
+            scene.add(light);
+            console.log(light);
 
             // renderer
             const renderer = new THREE.WebGLRenderer({ antialias: true });
