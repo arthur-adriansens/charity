@@ -14,7 +14,7 @@ class Server {
 
     start_server() {
         this.app.use(cors());
-        app.use(express.static("public"));
+        this.app.use(express.static("public"));
 
         this.app.listen(this.port, () => {
             console.log(`Listening on port ${this.port}`);
