@@ -26,7 +26,7 @@ class Server {
         });
 
         this.app.get("/chess", (req, res) => {
-            res.sendFile("./public/chess3D/chess.html");
+            res.sendFile("/chess3D/chess.html");
         });
     }
 }
