@@ -22,11 +22,11 @@ class Server {
         this.app.use(express.static(path.join(__dirname, "public")));
 
         this.app.get("/test", (req, res) => {
-            res.sendFile("index.html");
+            res.sendFile("public/index.html");
         });
 
         this.app.get("/chess", (req, res) => {
-            res.sendFile("public/chess3D/chess.html");
+            res.sendFile("charity-taupe.vercel.app/chess3D/chess.html");
         });
     }
 }
