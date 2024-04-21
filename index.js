@@ -13,8 +13,6 @@ class Server {
     }
 
     start_server() {
-        this.app.use(express.static(path.join(__dirname, "public")));
-
         this.app.listen(this.port, () => {
             console.log(`Listening on port ${this.port}`);
         });
