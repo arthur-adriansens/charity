@@ -451,7 +451,7 @@ button.rectangle-container {
   align-items: flex-end;
   justify-content: flex-end;
   padding: 1.125rem 0.919rem 1.106rem;
-  background-image: url(./public/image-5@2x.png);
+  background-image: url(/images/chessBoard.jpeg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
