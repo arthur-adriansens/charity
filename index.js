@@ -13,6 +13,8 @@ class Server {
     }
 
     start_server() {
+        this.app.use(express.static(path.join(__dirname, "public")));
+
         this.app.listen(this.port, () => {
             console.log(`Listening on port ${this.port}`);
         });
@@ -22,11 +24,11 @@ class Server {
         this.app.use(express.static(path.join(__dirname, "public")));
 
         this.app.get("/test", (req, res) => {
-            res.sendFile("public/index.html");
+            res.sendFile(path.join(__dirname, "public", "index.html"));
         });
 
         this.app.get("/chess", (req, res) => {
-            res.sendFile("charity-taupe.vercel.app/chess3D/chess.html");
+            res.sendFile(path.join(__dirname, "public", "chess3D", "chess.html"));
         });
     }
 }
