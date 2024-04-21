@@ -21,12 +21,12 @@ class Server {
     get_requests() {
         this.app.use(express.static(path.join(__dirname, "public")));
 
-        this.app.get("/", (req, res) => {
-            res.send("Hello World!");
+        this.app.get("/test", (req, res) => {
+            res.sendFile("index.html");
         });
 
         this.app.get("/chess", (req, res) => {
-            res.sendFile("/chess3D/chess.html");
+            res.sendFile("public/chess3D/chess.html");
         });
     }
 }
