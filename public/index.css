@@ -58,6 +58,10 @@ h1 {
   font-weight: 600;
 }
 
+a {
+  text-decoration: none;
+}
+
 img,
 svg {
   user-select: none;
@@ -117,6 +121,12 @@ nav {
   align-items: center;
 }
 
+.logo {
+  width: 125px;
+  position: absolute;
+  padding-left: 2.626rem;
+}
+
 .frame-item {
   height: 3.8px;
   width: 60.4px;
@@ -168,26 +178,33 @@ nav>p:hover::after {
   object-fit: cover;
 }
 
-.info,
-.info-wrapper {
-  display: flex;
-}
-
 .info {
+  display: flex;
   cursor: pointer;
   border: 2px solid var(--color-sandybrown);
-  padding: 0.6rem var(--padding-smi) 0.575rem 1.081rem;
+  padding: 0.6rem var(--padding-smi) 0.575rem var(--padding-smi);
   background-color: transparent;
-  align-self: stretch;
-  border-radius: 9.59px;
+  border-radius: 10px;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   gap: var(--gap-7xs-7);
+  height: fit-content;
 }
 
-.info:hover {
-  background-color: var(--color-chocolate-200);
-  border: 1.9px solid var(--color-chocolate-100);
+.blue {
+  border-color: #0485c1;
+  height: 40px;
+  box-shadow: 3.8px 3.8px 7.67px rgba(0, 0, 0, 0.25);
+}
+
+.game-preview-1:hover button {
+  transform: translate(-5px, -5px);
+  box-shadow: 5px 5px #045b83;
+}
+
+.account:hover button {
+  transform: translate(-5px, -5px);
+  box-shadow: 5px 5px var(--color-chocolate-100);
 }
 
 .img-wrapper {
@@ -197,17 +214,12 @@ nav>p:hover::after {
   justify-content: center;
 }
 
-.frame-group {
+.account {
   display: flex;
-  align-items: center;
   gap: var(--gap-7xs-7);
   justify-self: end;
   height: 60px;
-}
-
-.and-raise-money,
-.have-fun-playing {
-  margin: 0;
+  align-items: center;
 }
 
 .have-fun-playing-container {
@@ -221,10 +233,8 @@ nav>p:hover::after {
 }
 
 .free-games-for-charity-parent {
-  /* align-self: stretch; */
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
   justify-content: flex-start;
   gap: 13.1px;
   max-width: 100%;
@@ -239,7 +249,18 @@ button>p {
   width: 100%;
 }
 
-.frame-container button {
+.left {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 28.8px;
+  left: 0;
+  width: 634.8px;
+  gap: 26.7px;
+  max-width: 100%;
+}
+
+.left button {
   border-radius: 10px;
   cursor: pointer;
   border: 3px solid var(--color-white);
@@ -269,9 +290,12 @@ button.rectangle-container {
   background-color: transparent;
 }
 
-.rectangle-container:hover {
-  background-color: var(--color-chocolate-200);
-  border-color: var(--color-chocolate-100);
+.rectangle-container img {
+  display: none;
+}
+
+.rectangle-container:hover img {
+  display: block;
 }
 
 .frame-parent1 {
@@ -292,30 +316,13 @@ button.rectangle-container {
   font-weight: 600;
 }
 
-.frame-container,
 .frame-div {
   display: flex;
-}
-
-.frame-container,
-.frame-div {
   flex-direction: column;
-}
-
-.frame-div {
   width: 318.3px;
   gap: 2px;
   font-size: 0.719rem;
   font-family: var(--font-inter);
-}
-
-.frame-container {
-  position: relative;
-  top: 28.8px;
-  left: 0;
-  width: 634.8px;
-  gap: 26.7px;
-  max-width: 100%;
 }
 
 .image-6-icon {
@@ -337,7 +344,7 @@ button.rectangle-container {
   justify-content: center;
 }
 
-.frame-parent3,
+.game-2-preview,
 .game-logo {
   display: flex;
   max-width: 100%;
@@ -352,7 +359,7 @@ button.rectangle-container {
   z-index: 2;
 }
 
-.frame-parent3 {
+.game-2-preview {
   position: absolute;
   top: 0;
   left: 0;
@@ -405,43 +412,33 @@ button.rectangle-container {
   height: 13.8px;
   width: 12.3px;
   position: relative;
-  min-height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: -0.337rem;
-}
-
-.d-chess-parent {
-  align-self: stretch;
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.group-button,
-.image-5-parent {
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
+  /* min-height: 14px; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* margin-left: -0.337rem; */
 }
 
 .group-button {
+  display: flex;
   cursor: pointer;
   border: 2px solid var(--color-steelblue-100);
-  padding: 0.819rem 0.638rem var(--padding-smi);
+  padding: 0.6rem var(--padding-smi) 0.575rem var(--padding-smi);
   background-color: transparent;
   height: 40px;
   width: 112px;
   border-radius: 10px;
   box-shadow: 3.8px 3.8px 7.67px rgba(0, 0, 0, 0.25);
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  gap: var(--gap-7xs-7);
 }
 
-.image-5-parent {
+.game-preview-1 {
+  display: flex;
+  box-sizing: border-box;
+  align-content: flex-end;
+  flex-wrap: wrap;
+
   position: absolute;
   top: 30.7px;
   left: 0;
@@ -459,10 +456,9 @@ button.rectangle-container {
   box-shadow: 11.5px 11.5px 13.5px 3.8px rgb(0 0 0 / 25%);
 }
 
-.frame-parent2 {
+.game-previews {
   position: absolute;
   top: 0;
-  /* left: 500.5px; */
   right: 1.319rem;
   width: 354.8px;
   height: 318.4px;
@@ -470,7 +466,7 @@ button.rectangle-container {
 }
 
 
-.free-games {
+.start {
   flex: 1;
   height: 343.6px;
   width: 897.5px;
@@ -482,13 +478,6 @@ button.rectangle-container {
   max-width: 100%;
   position: relative;
   margin-top: 24.9px;
-}
-
-.screenshot-2024-03-23-1045-2 {
-  width: 124.7px;
-  position: absolute;
-  /*(niet verwijderen) top: -7px; */
-  padding-left: 2.626rem;
 }
 
 @media screen and (max-width: 750px) {
@@ -515,7 +504,7 @@ button.rectangle-container {
     flex-wrap: wrap;
   }
 
-  .free-games {
+  .start {
     height: auto;
     min-height: 343.6;
   }
