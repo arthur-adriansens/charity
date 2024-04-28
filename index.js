@@ -25,7 +25,7 @@ class Server {
             res.sendFile(path.join(__dirname, "public", "games", "games.html"));
         });
 
-        this.app.get("/chess", (req, res) => {
+        this.app.get("/games/chess", (req, res) => {
             res.sendFile(path.join(__dirname, "public", "chess3D", "chess.html"));
         });
     }
