@@ -26,7 +26,11 @@ class Server {
         });
 
         this.app.get("/games/chess", (req, res) => {
-            res.sendFile(path.join(__dirname, "public", "chess3D", "chess.html"));
+            res.sendFile(path.join(__dirname, "public", "games", "chess3D", "chess.html"));
+        });
+
+        this.app.get("/games/2048", (req, res) => {
+            res.sendFile(path.join(__dirname, "public", "games", "2048", "index.html"));
         });
     }
 }
