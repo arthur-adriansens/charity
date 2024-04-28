@@ -21,8 +21,8 @@ class Server {
     get_requests() {
         this.app.use(express.static(path.join(__dirname, "public")));
 
-        this.app.get("/test", (req, res) => {
-            res.sendFile(path.join(__dirname, "public", "index.html"));
+        this.app.get("/games", (req, res) => {
+            res.sendFile(path.join(__dirname, "public", "games", "games.html"));
         });
 
         this.app.get("/chess", (req, res) => {
