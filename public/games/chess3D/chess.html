@@ -6,7 +6,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>3D chess</title>
-        <link rel="stylesheet" href="/chess3D/style.css" />
+        <link rel="stylesheet" href="/games/chess3D/style.css" />
     </head>
 
     <body>
@@ -63,7 +63,7 @@
             const loader = new GLTFLoader();
 
             loader.load(
-                "/chess3D/scene.gltf",
+                "/games/chess3D/scene.gltf",
                 function (gltf) {
                     gltf.scene.position.y = 1.1;
                     scene.add(gltf.scene);

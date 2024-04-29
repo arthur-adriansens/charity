@@ -3,6 +3,11 @@
 import express from "express";
 import path from "path";
 
+import { sql } from "@vercel/postgres";
+
+const likes = 100;
+const { rows } = await sql`SELECT * FROM posts WHERE likes > ${likes};`;
+
 class Server {
     constructor(port = 3000) {
         this.app = express();
