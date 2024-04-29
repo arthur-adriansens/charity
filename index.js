@@ -37,6 +37,10 @@ class Server {
         this.app.get("/games/2048", (req, res) => {
             res.sendFile(path.join(__dirname, "public", "games", "2048", "index.html"));
         });
+
+        this.app.get("/games/snake", (req, res) => {
+            res.sendFile(path.join(__dirname, "public", "games", "snake", "popup.html"));
+        });
     }
 }
 

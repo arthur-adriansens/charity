@@ -1,0 +1,30 @@
+@font-face {
+    font-family: "Snake";
+    src: url("SnakeChan-MMoJ.ttf");
+  }
+body {
+    background-color: #F6F6F7;
+}
+h1 {
+    text-align: center;
+    font-family: "Snake";
+}
+.start {
+    text-align: middle;
+}
+button.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border: 3px solid green; 
+  }
+canvas {
+    border-radius: 1em;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+.nowrap {
+    white-space: nowrap;  
+}

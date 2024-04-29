@@ -1,0 +1,16 @@
+        {
+    "manifest_version": 3,
+  
+    "name": "Snake Game",
+    "description": "Snake Game for Google Chrome",
+    "version": "1.0",
+    "author": "Tuurtje11",
+  
+    "action": {
+     "default_icon": "icon.png",
+     "default_popup": "popup.html"
+    },
+    "permissions": [
+     "activeTab"
+     ]
+  }
