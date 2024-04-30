@@ -1,18 +1,152 @@
-window.onload = function() {
-    canvas = document.getElementById("game");
-    canvasContext = canvas.getContext("2d");
-    document.addEventListener("keydown", keyPush);
-    setInterval(game, 1000 / 15);
-    updateHighscore();
-    //make_base();
+/** @format */
+
+//TODO:
+// bug: horizontaal, dan eerst pijltje naar boven en direct pijltje naar omgekeerde richting van slang => gaat door zichzelf
+
+class Game {
+    constructor() {
+        this.apple = {
+            X: 15,
+            Y: 15,
+        };
+        this.score = 0;
+        this.gameSize = 20;
+        this.xv = this.yv = 0; // size of next step
+        this.speed = 1000 / 15;
+
+        window.onload = () => this.setup();
+    }
+
+    setup() {
+        this.canvas = document.querySelector("#game");
+        this.canvasContext = this.canvas.getContext("2d");
+
+        setInterval(() => this.refresh_game(), this.speed);
+        this.updateHighscore();
+        this.refresh_game();
+        //make_base();
+    }
+
+    updateHighscore() {
+        if (localStorage.getItem("highscore") === null) {
+            localStorage.setItem("highscore", 0);
+            this.highscore = 0;
+        } else {
+            this.highscore = localStorage.getItem("highscore");
+            document.getElementById("highscore").innerHTML = "Highscore: " + highscore;
+        }
+    }
+
+    updateScore() {
+        document.getElementById("score").innerHTML = "Score: " + this.score;
+    }
+
+    refresh_game() {
+        snake.X += this.xv;
+        snake.Y += this.yv;
+
+        if (snake.X < 0) {
+            snake.X = this.gameSize - 1;
+        }
+        if (snake.X > this.gameSize - 1) {
+            snake.X = 0;
+        }
+        if (snake.Y < 0) {
+            snake.Y = this.gameSize - 1;
+        }
+        if (snake.Y > this.gameSize - 1) {
+            snake.Y = 0;
+        }
+        this.canvasContext.fillStyle = "#ffffff";
+        this.canvasContext.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.canvasContext.fillStyle = "#01A2E8";
+
+        for (var i = 0; i < snake.trail.length; i++) {
+            this.canvasContext.fillRect(snake.trail[i].x * this.gameSize, snake.trail[i].y * this.gameSize, this.gameSize - 2, this.gameSize - 2);
+            if (snake.trail[i].x == snake.X && snake.trail[i].y == snake.Y) {
+                snake.length = 5;
+                if (this.score > this.highscore) {
+                    localStorage.setItem("highscore", this.score);
+                }
+                this.score = 0;
+                this.updateScore();
+                this.updateHighscore();
+                console.log("death");
+            }
+        }
+        snake.trail.push({
+            x: snake.X,
+            y: snake.Y,
+        });
+        while (snake.trail.length > snake.length) {
+            snake.trail.shift();
+        }
+
+        if (this.apple.X == snake.X && this.apple.Y == snake.Y) {
+            this.score++;
+            this.updateScore();
+            snake.length++;
+            this.apple.X = Math.floor(Math.random() * this.gameSize);
+            this.apple.Y = Math.floor(Math.random() * this.gameSize);
+        }
+        this.canvasContext.fillStyle = "#FF7A00";
+        this.canvasContext.fillRect(this.apple.X * this.gameSize, this.apple.Y * this.gameSize, this.gameSize - 2, this.gameSize - 2);
+    }
 }
-Xsnake = Ysnake = 10;
-gs = tc = 20;
-Xapple = Yapple = 15;
-xv = yv = 0;
-trail = [];
-tail = 5;
-score = 0;
+
+class Snake {
+    constructor() {
+        this.X = this.Y = 10; //snake start
+        this.trail = [];
+        this.length = 5; // length tail
+        document.addEventListener("keydown", (e) => this.move_snake(e));
+    }
+
+    move_left() {
+        if (game.xv != 1) {
+            game.xv = -1;
+            game.yv = 0;
+        }
+    }
+
+    move_right() {
+        if (game.xv != -1) {
+            game.xv = 1;
+            game.yv = 0;
+        }
+    }
+
+    move_down() {
+        if (game.yv != -1) {
+            game.xv = 0;
+            game.yv = 1;
+        }
+    }
+
+    move_up() {
+        if (game.yv != 1) {
+            game.xv = 0;
+            game.yv = -1;
+        }
+    }
+
+    move_snake(keypress) {
+        switch (keypress.key) {
+            case "ArrowLeft":
+                this.move_left();
+                break;
+            case "ArrowUp":
+                this.move_up();
+                break;
+            case "ArrowRight":
+                this.move_right();
+                break;
+            case "ArrowDown":
+                this.move_down();
+                break;
+        }
+    }
+}
 
 /*
 function make_base() {
@@ -23,104 +157,6 @@ function make_base() {
     }
 }
 */
-function updateHighscore() {
-    //Check browser supports local storage
-    if (typeof(Storage) !== "undefined") {
 
-        //Check if their is a highscore made before  
-        if (localStorage.getItem("highscore") === null) {
-            localStorage.setItem("highscore", 0);
-            highscore = 0;
-        } else {
-            highscore = localStorage.getItem("highscore");
-            document.getElementById("highscore").innerHTML = "Highscore: " + highscore;
-        }
-    } else {
-        document.getElementById("highscore").innerHTML = "Sorry, your browser does not support Web Storage...";
-    }
-}
-
-function updateScore() {
-    document.getElementById("score").innerHTML = "Score: " + score;
-}
-
-function game() {
-    Xsnake += xv;
-    Ysnake += yv;
-    if (Xsnake < 0) {
-        Xsnake = tc - 1;
-    }
-    if (Xsnake > tc - 1) {
-        Xsnake = 0;
-    }
-    if (Ysnake < 0) {
-        Ysnake = tc - 1;
-    }
-    if (Ysnake > tc - 1) {
-        Ysnake = 0;
-    }
-    canvasContext.fillStyle = "#ffffff";
-    canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-
-    canvasContext.fillStyle = "#01A2E8";
-    for (var i = 0; i < trail.length; i++) {
-        canvasContext.fillRect(trail[i].x * gs, trail[i].y * gs, gs - 2, gs - 2);
-        if (trail[i].x == Xsnake && trail[i].y == Ysnake) {
-            tail = 5;
-            if (score > highscore) {
-                localStorage.setItem("highscore", score);
-            }
-            score = 0;
-            updateScore();
-            updateHighscore()
-        }
-    }
-    trail.push({
-        x: Xsnake,
-        y: Ysnake
-    });
-    while (trail.length > tail) {
-        trail.shift();
-    }
-
-    if (Xapple == Xsnake && Yapple == Ysnake) {
-        score++;
-        updateScore();
-        tail++;
-        Xapple = Math.floor(Math.random() * tc);
-        Yapple = Math.floor(Math.random() * tc);
-    }
-    canvasContext.fillStyle = "#FF7A00";
-    canvasContext.fillRect(Xapple * gs, Yapple * gs, gs - 2, gs - 2);
-}
-
-function keyPush(evt) {
-    switch (evt.keyCode) {
-        case 37: //left arrow
-            if (xv != 1) {
-                xv = -1;
-                yv = 0; //turn left
-            }
-            break;
-        case 38: //up arrow
-            if (yv != 1) {
-                xv = 0;
-                yv = -1; //turn up
-            }
-            break;
-        case 39: //right arrow
-            if (xv != -1) {
-                xv = 1;
-                yv = 0; //turn right
-            }
-            break;
-        case 40: //down arrow
-            if (yv != -1) {
-                xv = 0;
-                yv = 1; // turn down
-            }
-            break;
-    }
-}
-
-//localStorage.setItem("lastname", "Smith");
+const snake = new Snake();
+const game = new Game();
