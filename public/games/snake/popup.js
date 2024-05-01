@@ -208,4 +208,7 @@ window.onload = () => {
         pause_btn.querySelector("path.selected").classList.toggle("selected");
         not_selected.classList.toggle("selected");
     };
+
+    const stored_highscore = localStorage.getItem("highscore");
+    document.getElementById("highscore").innerHTML = `Highscore: ${stored_highscore ? stored_highscore : 0}`;
 };
