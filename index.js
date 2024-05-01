@@ -3,6 +3,8 @@
 import express from "express";
 import path from "path";
 
+//todo: combine all the /games/* and /tools/* into one or two get requests
+
 // import { sql } from "@vercel/postgres";
 
 // const likes = 100;
@@ -40,6 +42,10 @@ class Server {
 
         this.app.get("/games/snake", (req, res) => {
             res.sendFile(path.join(__dirname, "public", "games", "snake", "popup.html"));
+        });
+
+        this.app.get("/tools/qr", (req, res) => {
+            res.sendFile(path.join(__dirname, "public", "tools", "qr-code", "qr.html"));
         });
     }
 }
