@@ -4,16 +4,90 @@
 <html lang="en">
     <head>
         <title>Snake Game for Google Chrome</title>
+
         <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="icon" type="image/x-icon" href="icon.png" />
         <script src="popup.js"></script>
     </head>
-    <body>
-        <h1>Snake Game</h1>
+    <body class="start_page">
+        <h1 id="title">Snake Game</h1>
         <!-- <p>The first ever game I made!</p> -->
-        <canvas id="game" width="400" height="400"></canvas>
-        <div style="display: flex;">
+        <div class="game_wrapper">
+            <canvas id="game" width="400" height="400"></canvas>
+
+            <svg class="pause" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
+                <defs></defs>
+                <path
+                    d="M600-200q-33 0-56.5-23.5T520-280v-400q0-33 23.5-56.5T600-760h80q33 0 56.5 23.5T760-680v400q0 33-23.5 56.5T680-200h-80Zm-320 0q-33 0-56.5-23.5T200-280v-400q0-33 23.5-56.5T280-760h80q33 0 56.5 23.5T440-680v400q0 33-23.5 56.5T360-200h-80Zm320-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"
+                    class="selected"
+                ></path>
+
+                <path
+                    d="M320-273v-414q0-17 12-28.5t28-11.5q5 0 10.5 1.5T381-721l326 207q9 6 13.5 15t4.5 19q0 10-4.5 19T707-446L381-239q-5 3-10.5 4.5T360-233q-16 0-28-11.5T320-273Zm80-207Zm0 134 210-134-210-134v268Z"
+                ></path>
+            </svg>
+
+            <div class="start">
+                <h1>Snake Game</h1>
+                <button id="start" data-speed="100">easy</button>
+                <button id="start" data-speed="75">medium</button>
+                <button id="start" data-speed="50">hard</button>
+            </div>
+
+            <!-- <div>death</div> -->
+        </div>
+
+        <div class="scores">
             <p id="score">Score: 0</p>
             <p id="highscore">Highscore: 0</p>
         </div>
+
+        <div class="feedback">
+            <p>give feedback</p>
+
+            <div class="feedback-icon" onclick="toggleDialog()">
+                <svg viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg">
+                    <defs></defs>
+                    <path
+                        d="M280-400h65q8 0 15.5-3t13.5-9l188-188q9-9 13.5-20.5T580-643q0-11-5-21.5T562-684l-36-38q-9-9-20-13.5t-23-4.5q-11 0-22.5 4.5T440-722L252-534q-6 6-9 13.5t-3 15.5v65q0 17 11.5 28.5T280-400Zm240-243-37-37 37 37ZM300-460v-38l101-101 20 18 18 20-101 101h-38Zm121-121 18 20-38-38 20 18Zm26 181h233q17 0 28.5-11.5T720-440q0-17-11.5-28.5T680-480H527l-80 80ZM240-240l-92 92q-19 19-43.5 8.5T80-177v-623q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240Zm-34-80h594v-480H160v525l46-45Zm-46 0v-480 480Z"
+                    ></path>
+                </svg>
+            </div>
+        </div>
+
+        <dialog class="feedback-popup">
+            <div>
+                <h2>
+                    We love feedback!
+                    <button class="close" onclick="toggleDialog()">close</button>
+                </h2>
+                <textarea>You can write me about anything! Your ideas, what you like or what you dislike, ... We can use all your feedback!</textarea>
+
+                <div class="primary-button">
+                    <button>
+                        <p>submit</p>
+                    </button>
+                </div>
+            </div>
+        </dialog>
+
+        <script>
+            const dialog = document.querySelector("dialog.feedback-popup");
+            const submitFeedback = dialog.querySelector(".primary-button");
+            const textboxFeedback = dialog.querySelector("textarea");
+            const titleFeedback = dialog.querySelector("h2");
+
+            toggleDialog = () => {
+                dialog.style.display = dialog.style.display != "flex" ? "flex" : "none";
+            };
+
+            submitFeedback.onclick = () => {
+                const feedback_value = textboxFeedback.value;
+                textboxFeedback.style.display = "none";
+                submitFeedback.style.display = "none";
+
+                titleFeedback.innerHTML = 'Thank you so much for the feedback! <button class="close send" onclick="toggleDialog()">close</button>';
+            };
+        </script>
     </body>
 </html>

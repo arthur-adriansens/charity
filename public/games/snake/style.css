@@ -3,41 +3,214 @@
     src: url("SnakeChan-MMoJ.ttf");
 }
 
+@font-face {
+    font-family: "Sen";
+    src: url("Sen-VariableFont_wght.ttf");
+}
+
+:root {
+    --primary_bg: #FAFAFA;
+    --secondary_darker: #cccccc;
+    --ternary_accent: #01a2e8;
+}
+
 body,
 html {
-    background-color: #F6F6F7;
+    background-color: var(--primary_bg);
     margin: 0;
     height: 100%;
     width: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
-    text-align: center;
     font-family: "Snake";
+    color: var(--ternary_accent);
+    margin-top: 0;
+    user-select: none;
 }
 
-.start {
-    text-align: middle;
+h1#title {
+    transition: opacity 1s .3s;
 }
 
-button.center {
+p {
+    font-family: "Sen";
+    margin-bottom: 0;
+    user-select: none;
+}
+
+.scores {
+    display: flex;
+    width: 400px;
+    justify-content: space-around;
+}
+
+.game_wrapper {
+    width: 400px;
+    height: 400px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 200px;
-    border: 3px solid green;
+    position: relative;
 }
 
 canvas {
-    border-radius: 1em;
-    margin-right: auto;
-    margin-left: auto;
     display: block;
-    box-shadow: 0 0 15px 0px #cccccc;
-    border: 1px solid #cccccc;
+    border-radius: 1em;
+    box-shadow: 0 0 15px 0px var(--secondary_darker);
+    border: 1px solid var(--secondary_darker);
 }
 
-.nowrap {
-    white-space: nowrap;
+svg.pause {
+    right: 0;
+    position: absolute;
+    height: 30px;
+    aspect-ratio: 1;
+    margin: 10px;
+    fill: var(--secondary_darker);
+    transition: filter 1s;
+}
+
+svg.pause>path:not(.selected) {
+    display: none;
+}
+
+svg.pause:hover {
+    filter: brightness(0%);
+}
+
+.start {
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity .5s;
+    opacity: 0;
+    border-radius: 1em;
+    flex-direction: column;
+    pointer-events: none;
+    user-select: none;
+}
+
+.start_page .start {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.start_page h1#title {
+    opacity: 0;
+}
+
+/* FEEDBACK BUTTON */
+
+.feedback {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: "Sen";
+}
+
+.feedback-icon {
+    background-color: #fc9a40;
+    height: 40px;
+    aspect-ratio: 1;
+    border: 2px solid var(--secondary_darker);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.feedback svg {
+    fill: #045378;
+    width: 25px;
+    aspect-ratio: 1;
+}
+
+.feedback>p {
+    font-size: 0.838rem;
+    /* font-weight: 600; */
+    color: black;
+    text-align: right;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s;
+    margin: 0;
+}
+
+.feedback:hover>p {
+    opacity: 1;
+}
+
+.feedback-popup {
+    position: fixed;
+    z-index: 6;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    background: transparent;
+    backdrop-filter: blur(2px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border: none;
+    font-family: "Sen";
+}
+
+.feedback-popup>div {
+    width: 80vw;
+    height: 80vh;
+    background: var(--primary_bg);
+    border-radius: 20px;
+    border: 3px solid lightgrey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* position: relative; */
+    justify-content: space-evenly;
+}
+
+.feedback-popup h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--ternary_accent);
+    text-align: center;
+    position: relative;
+    width: 100%;
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.feedback-popup textarea {
+    max-width: 90%;
+    width: 80%;
+    height: 50%;
+    max-height: 60%;
+}
+
+button.close {
+    position: absolute;
+    right: 0;
+    margin-right: 35.5px;
+}
+
+.close.send {
+    position: relative;
+    margin: 0;
 }
