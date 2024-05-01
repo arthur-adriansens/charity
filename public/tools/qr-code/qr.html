@@ -8,14 +8,20 @@
         <title>simple qr-code generator</title>
     </head>
     <body>
+        <input id="input">link/text/...</input>
         <canvas id="canvas"></canvas>
 
         <script src="/tools/qr-code/build/qrcode.js"></script>
         <script>
-            QRCode.toCanvas(document.getElementById("canvas"), "sample text", function (error) {
-                if (error) console.error(error);
-                console.log("success!");
-            });
+            const input_box = document.querySelector("#input");
+            const canvas_result = document.getElementById("canvas");
+
+            input_box.oninput = () => {
+                QRCode.toCanvas(canvas_result, input_box.value, (error) => {
+                    if (error) console.error(error);
+                    console.log("success!");
+                });
+            }
         </script>
     </body>
 </html>
