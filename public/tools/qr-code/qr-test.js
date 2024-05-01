@@ -2,6 +2,7 @@
 
 // todo: client side or server side?
 
+
 const QRCode = require("qrcode");
 
 const options = {
