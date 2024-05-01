@@ -19,3 +19,8 @@ Desktop.ini # Windows desktop icon settings
 
 # Others
 *.log   # Log files
+
+/node_modules
+/.parcel-cache
+package-lock.json
+.env
