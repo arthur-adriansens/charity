@@ -44,7 +44,7 @@ class Server {
             res.sendFile(path.join(__dirname, "public", "games", "snake", "popup.html"));
         });
 
-        this.app.get("/tools/qr", (req, res) => {
+        this.app.get("/tools/qr-code", (req, res) => {
             res.sendFile(path.join(__dirname, "public", "tools", "qr-code", "qr.html"));
         });
     }
