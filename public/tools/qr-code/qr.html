@@ -25,7 +25,7 @@
             }
 
             document.querySelector("#download").onclick = () => {
-                QRCode.toFile(canvas_result, input_box.value, (error) => {
+                QRCode.toDataURL(canvas_result, input_box.value, (error) => {
                     if (error) console.error(error);
                     console.log("success!");
                 });
