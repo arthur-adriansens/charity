@@ -9,6 +9,7 @@
     </head>
     <body>
         <input id="input">link/text/...</input>
+        <button id="download">download png</button>
         <canvas id="canvas"></canvas>
 
         <script src="/tools/qr-code/build/qrcode.js"></script>
@@ -18,6 +19,13 @@
 
             input_box.oninput = () => {
                 QRCode.toCanvas(canvas_result, input_box.value, (error) => {
+                    if (error) console.error(error);
+                    console.log("success!");
+                });
+            }
+
+            document.querySelector("#download").onclick = () => {
+                QRCode.toFile(canvas_result, input_box.value, (error) => {
                     if (error) console.error(error);
                     console.log("success!");
                 });
