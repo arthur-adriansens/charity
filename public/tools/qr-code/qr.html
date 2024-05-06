@@ -88,8 +88,8 @@
                 return [input, options_result];
             };
 
-            function update_downloadbtn(svg = false) {
-                if (!svg) {
+            function update_downloadbtn() {
+                if (type_data != "svg") {
                     QRCode.toDataURL(options()[0], options()[1], (error, url) => {
                         if (error) console.error(error);
 
