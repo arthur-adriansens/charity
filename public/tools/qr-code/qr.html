@@ -28,6 +28,16 @@
                 </select>
 
                 <br />
+                <label for="errorCorrectionLevel">errorCorrectionLevel: </label>
+
+                <select id="errorCorrectionLevel">
+                    <option value="L">L (Low)</option>
+                    <option value="M">M (Medium)</option>
+                    <option value="Q">Q (Quartile)</option>
+                    <option value="H" selected="selected">H (High)</option>
+                </select>
+
+                <br />
 
                 <label for="margin">margin: </label>
                 <input id="margin" value="2" min="0" max="15" type="range" />
@@ -70,12 +80,13 @@
             const file_name_data = document.querySelector("input#file");
             const dark_data = document.querySelector("input#dark");
             const light_data = document.querySelector("input#light");
+            const errorCorrectionLevel_data = document.querySelector("select#errorCorrectionLevel");
 
             const options = (image = true) => {
                 const input = input_data.value;
 
                 const options_result = {
-                    errorCorrectionLevel: "L",
+                    errorCorrectionLevel: errorCorrectionLevel_data.value,
                     type: `${image ? "image/" : ""}${type_data.value}`,
                     quality: 1,
                     margin: margin_data.value,
@@ -116,6 +127,7 @@
                 margin_data.oninput =
                 dark_data.oninput =
                 light_data.oninput =
+                errorCorrectionLevel_data.oninput =
                     () => {
                         if (!input_data.value) return;
 
