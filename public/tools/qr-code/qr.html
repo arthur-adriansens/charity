@@ -89,15 +89,7 @@
             };
 
             function update_downloadbtn() {
-                if (type_data != "svg") {
-                    QRCode.toDataURL(options()[0], options()[1], (error, url) => {
-                        if (error) console.error(error);
-
-                        download_btn.href = url;
-                        download_btn.download = file_name_data.value || "qr";
-                        // download_btn.click();
-                    });
-                } else {
+                if (type_data.value == "svg") {
                     QRCode.toString(options(false)[0], options(false)[1], (error, string) => {
                         if (error) console.error(error);
 
@@ -106,6 +98,14 @@
 
                         download_btn.href = svgDataUrl;
                         download_btn.download = file_name_data.value || "svg";
+                        // download_btn.click();
+                    });
+                } else {
+                    QRCode.toDataURL(options()[0], options()[1], (error, url) => {
+                        if (error) console.error(error);
+
+                        download_btn.href = url;
+                        download_btn.download = file_name_data.value || "qr";
                         // download_btn.click();
                     });
                 }
