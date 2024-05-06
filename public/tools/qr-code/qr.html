@@ -5,31 +5,195 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
         <title>simple qr-code generator</title>
     </head>
+
     <body>
-        <input id="input">link/text/...</input>
-        <button id="download">download png</button>
-        <canvas id="canvas"></canvas>
+        <div class="options">
+            <input id="data" value="Place your text or link here." />
+            <input id="file" placeholder="Place your file name here." />
+            <br />
+            <div id="image_options">
+                <label for="image_type">(if img) image file type: </label>
+
+                <select id="image_type">
+                    <option value="png">png</option>
+                    <option value="jpeg">jpeg</option>
+                    <option value="webp">webp</option>
+
+                    <option value="svg">svg</option>
+                    <!-- <option value="utf8">utf8</option>
+                    <option value="terminal">terminal</option> -->
+                </select>
+
+                <br />
+
+                <label for="margin">margin: </label>
+                <input id="margin" value="2" min="0" max="15" type="range" />
+
+                <br />
+
+                <label for="dark">dark color: </label>
+                <input id="dark" value="#000000" type="color" />
+
+                <br />
+
+                <label for="light">light color: </label>
+                <input id="light" value="#FFFFFF" type="color" />
+            </div>
+        </div>
+
+        <div class="result">
+            <canvas id="result"></canvas>
+            <button id="copy_string">copy qr-code (string/text)</button>
+            <button id="copy_image">copy qr-code (image)</button>
+            <a id="download_img" download>
+                <button>download qr-code</button>
+            </a>
+        </div>
 
         <script src="/tools/qr-code/build/qrcode.js"></script>
         <script>
-            const input_box = document.querySelector("#input");
-            const canvas_result = document.getElementById("canvas");
+            // svg's are corrupted doesn't work
 
-            input_box.oninput = () => {
-                QRCode.toCanvas(canvas_result, input_box.value, (error) => {
-                    if (error) console.error(error);
-                    console.log("success!");
-                });
+            // elements
+            const canvas_result = document.querySelector("canvas#result");
+            const download_btn = document.querySelector("a#download_img");
+            const copy_btn = document.querySelector("#copy_string");
+            const copy_btn_img = document.querySelector("#copy_image");
+
+            // inputs
+            const input_data = document.querySelector("input#data");
+            const type_data = document.querySelector("select#image_type");
+            const margin_data = document.querySelector("input#margin");
+            const file_name_data = document.querySelector("input#file");
+            const dark_data = document.querySelector("input#dark");
+            const light_data = document.querySelector("input#light");
+
+            const options = (image = true) => {
+                const input = input_data.value;
+
+                const options_result = {
+                    errorCorrectionLevel: "L",
+                    type: `${image ? "image/" : ""}${type_data.value}`,
+                    quality: 1,
+                    margin: margin_data.value,
+                    color: {
+                        dark: dark_data.value,
+                        light: light_data.value,
+                    },
+                };
+
+                return [input, options_result];
+            };
+
+            function update_downloadbtn(svg = false) {
+                if (!svg) {
+                    QRCode.toDataURL(options()[0], options()[1], (error, url) => {
+                        if (error) console.error(error);
+
+                        download_btn.href = url;
+                        download_btn.download = file_name_data.value || "qr";
+                        // download_btn.click();
+                    });
+                } else {
+                    QRCode.toString(options(false)[0], options(false)[1], (error, string) => {
+                        if (error) console.error(error);
+
+                        console.log(string);
+                        const svgDataUrl = `data:image/svg+xml,${encodeURIComponent(string)}`;
+
+                        download_btn.href = svgDataUrl;
+                        download_btn.download = file_name_data.value || "svg";
+                        // download_btn.click();
+                    });
+                }
             }
 
-            document.querySelector("#download").onclick = () => {
-                QRCode.toDataURL(canvas_result, input_box.value, (error) => {
-                    if (error) console.error(error);
-                    console.log("success!");
-                });
-            }
+            window.onload =
+                input_data.oninput =
+                margin_data.oninput =
+                dark_data.oninput =
+                light_data.oninput =
+                    () => {
+                        if (!input_data.value) return;
+
+                        QRCode.toCanvas(canvas_result, options()[0], options()[1], (error) => {
+                            if (error == "Error: The amount of data is too big to be stored in a QR Code") {
+                                console.log("input data is too big for a qr-code!");
+                            } else if (error) {
+                                console.error(error);
+                            }
+                            console.log("success!");
+                        });
+                    };
+
+            document.querySelector("#download_img").onclick = update_downloadbtn;
+
+            copy_btn.onclick = copy_btn_img.onclick = (e) => {
+                if (e.target.id == "copy_string") {
+                    if (type_data.value == "svg") {
+                        QRCode.toString(options(false)[0], options(false)[1], (error, string) => {
+                            if (error) console.error(error);
+
+                            console.log(string);
+                            if ("clipboard" in navigator) {
+                                navigator.clipboard.writeText(string);
+                                console.log("SVG string copied to clipboard");
+                            } else {
+                                console.error("Clipboard API not supported");
+                            }
+                        });
+                    } else {
+                        QRCode.toDataURL(options()[0], options()[1], (error, url) => {
+                            if (error) console.error(error);
+
+                            console.log(url);
+                            if ("clipboard" in navigator) {
+                                navigator.clipboard.writeText(url);
+                                console.log("image string copied to clipboard");
+                            } else {
+                                console.error("Clipboard API not supported");
+                            }
+                        });
+                    }
+                } else {
+                    const opts = options();
+                    opts[1].type = "image/png";
+
+                    QRCode.toDataURL(opts[0], opts[1], (error, url) => {
+                        if (error) console.error(error);
+
+                        console.log(url);
+
+                        if ("write" in navigator.clipboard) {
+                            // Extract the image data from the base64 string
+                            const imageType = url.split(",")[0].split(":")[1].split(";")[0];
+                            const imageData = url.split(",")[1];
+
+                            // Create a Blob from the image data
+                            const byteCharacters = atob(imageData);
+                            const byteNumbers = new Array(byteCharacters.length);
+                            for (let i = 0; i < byteCharacters.length; i++) {
+                                byteNumbers[i] = byteCharacters.charCodeAt(i);
+                            }
+                            const byteArray = new Uint8Array(byteNumbers);
+                            const blob = new Blob([byteArray], { type: imageType });
+
+                            // Copy the Blob to the clipboard
+                            navigator.clipboard.write([
+                                new ClipboardItem({
+                                    [imageType]: blob,
+                                }),
+                            ]);
+                            console.log("Image copied to clipboard");
+                        } else {
+                            console.error("Clipboard API not supported");
+                        }
+                    });
+                }
+            };
         </script>
     </body>
 </html>
